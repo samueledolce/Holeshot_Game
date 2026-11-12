@@ -6,6 +6,7 @@ import it.unicam.cs.mpgc.rpg129875.engine.GeneratoreAvversariCasuale;
 import it.unicam.cs.mpgc.rpg129875.engine.GestoreCarriera;
 import it.unicam.cs.mpgc.rpg129875.engine.GestoreProgressione;
 import it.unicam.cs.mpgc.rpg129875.engine.MotoreDiGara;
+import it.unicam.cs.mpgc.rpg129875.engine.Negozio;
 import it.unicam.cs.mpgc.rpg129875.engine.RisolutorePartenza;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
@@ -49,6 +50,7 @@ public final class HoleshotApplication extends Application implements Navigatore
     private RepositorySalvataggi<Carriera> repository;
     private CatalogoMoto catalogoMoto;
     private GestoreCarriera gestoreCarriera;
+    private Negozio negozio;
     private MotoreDiGara motoreDiGara;
     private RisolutorePartenza risolutorePartenza;
 
@@ -70,6 +72,7 @@ public final class HoleshotApplication extends Application implements Navigatore
         CatalogoJson catalogo = new CatalogoJson();
         this.catalogoMoto = catalogo;
         this.gestoreCarriera = new GestoreCarriera(catalogo);
+        this.negozio = new Negozio(catalogo);
         this.repository = new RepositorySalvataggiJson(Path.of("saves"));
         this.motoreDiGara = new MotoreDiGara(
                 new GeneratoreAvversariCasuale(),
@@ -125,6 +128,11 @@ public final class HoleshotApplication extends Application implements Navigatore
     public void passaAlProssimoCampionato() {
         gestoreCarriera.passaAlProssimoCampionato(carrieraCorrente);
         mostraCarriera();
+    }
+
+    @Override
+    public void mostraNegozio() {
+        mostra(SchermataNegozio.crea(this, carrieraCorrente.getPilota(), negozio));
     }
 
     @Override

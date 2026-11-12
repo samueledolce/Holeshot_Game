@@ -1,5 +1,7 @@
 package it.unicam.cs.mpgc.rpg129875.model;
 
+import java.util.Objects;
+
 /**
  * Una moto da cross utilizzabile dal pilota: potenza, maneggevolezza e
  * prontezza in partenza ne determinano la qualità complessiva, che incide
@@ -61,6 +63,28 @@ public final class Moto {
 
     public int punteggioComplessivo() {
         return (potenza + maneggevolezza + bonusPartenza) / 3;
+    }
+
+    /**
+     * Due moto sono la stessa moto se hanno lo stesso nome, che identifica
+     * il modello. Serve per riconoscere la moto del pilota tra quelle del
+     * catalogo anche dopo averla ricaricata da un salvataggio, quando è un
+     * oggetto diverso con gli stessi dati.
+     */
+    @Override
+    public boolean equals(Object altro) {
+        if (this == altro) {
+            return true;
+        }
+        if (!(altro instanceof Moto)) {
+            return false;
+        }
+        return nome.equals(((Moto) altro).nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 
     @Override

@@ -59,6 +59,9 @@ final class SchermataCarriera {
             });
         });
 
+        Button vaiAlNegozio = new Button("Negozio moto");
+        vaiAlNegozio.setOnAction(evento -> navigatore.mostraNegozio());
+
         Button menuPrincipale = new Button("Torna al menu");
         menuPrincipale.setOnAction(evento -> navigatore.mostraMenu());
 
@@ -66,7 +69,7 @@ final class SchermataCarriera {
         rigaSalvataggio.setAlignment(Pos.CENTER_LEFT);
 
         VBox box = new VBox(10, titolo, stile, statistiche, moto, denaro, abilita, campionatoLabel,
-                prossimaGara, rigaSalvataggio, menuPrincipale);
+                prossimaGara, vaiAlNegozio, rigaSalvataggio, menuPrincipale);
         box.setPadding(new Insets(30));
         box.setMaxWidth(560);
         return box;

@@ -24,6 +24,8 @@ public interface Navigatore {
 
     void passaAlProssimoCampionato();
 
+    void mostraNegozio();
+
     void mostraGara();
 
     void mostraPartenza(Gara gara);

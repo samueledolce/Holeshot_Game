@@ -93,6 +93,26 @@ public final class Pilota {
         this.denaro = Math.max(0, this.denaro + quantita);
     }
 
+    public boolean puoSpendere(int quantita) {
+        return quantita <= denaro;
+    }
+
+    /**
+     * Toglie al pilota i crediti indicati.
+     *
+     * @throws IllegalStateException se il pilota non ha abbastanza crediti
+     */
+    public void spendiDenaro(int quantita) {
+        if (quantita < 0) {
+            throw new IllegalArgumentException("La spesa non può essere negativa: " + quantita);
+        }
+        if (!puoSpendere(quantita)) {
+            throw new IllegalStateException("Crediti insufficienti: servono " + quantita
+                    + ", disponibili " + denaro);
+        }
+        this.denaro -= quantita;
+    }
+
     public Set<Abilita> getAbilitaSbloccate() {
         return Set.copyOf(abilitaSbloccate);
     }
