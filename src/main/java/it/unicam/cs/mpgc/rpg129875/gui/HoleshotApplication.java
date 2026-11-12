@@ -4,6 +4,7 @@ import it.unicam.cs.mpgc.rpg129875.engine.CalcolatorePiazzamentoStandard;
 import it.unicam.cs.mpgc.rpg129875.engine.EsitoGara;
 import it.unicam.cs.mpgc.rpg129875.engine.GeneratoreAvversariCasuale;
 import it.unicam.cs.mpgc.rpg129875.engine.GestoreCarriera;
+import it.unicam.cs.mpgc.rpg129875.engine.GestoreObiettivi;
 import it.unicam.cs.mpgc.rpg129875.engine.GestoreProgressione;
 import it.unicam.cs.mpgc.rpg129875.engine.MotoreDiGara;
 import it.unicam.cs.mpgc.rpg129875.engine.Negozio;
@@ -71,13 +72,14 @@ public final class HoleshotApplication extends Application implements Navigatore
     public void init() {
         CatalogoJson catalogo = new CatalogoJson();
         this.catalogoMoto = catalogo;
-        this.gestoreCarriera = new GestoreCarriera(catalogo);
+        this.gestoreCarriera = new GestoreCarriera(catalogo, catalogo);
         this.negozio = new Negozio(catalogo);
         this.repository = new RepositorySalvataggiJson(Path.of("saves"));
         this.motoreDiGara = new MotoreDiGara(
                 new GeneratoreAvversariCasuale(),
                 new CalcolatorePiazzamentoStandard(),
-                new GestoreProgressione()
+                new GestoreProgressione(),
+                new GestoreObiettivi()
         );
         this.risolutorePartenza = new RisolutorePartenza();
     }

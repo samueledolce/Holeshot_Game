@@ -1,0 +1,8 @@
+[
+  { "descrizione": "Sali sul podio per la prima volta",                 "criterioChiave": "PODIO",             "traguardo": 1, "ricompensa": 100 },
+  { "descrizione": "Vinci la tua prima gara",                           "criterioChiave": "VITTORIA",          "traguardo": 1, "ricompensa": 200 },
+  { "descrizione": "Conquista 5 holeshot (partenza ottima o perfetta)", "criterioChiave": "HOLESHOT",          "traguardo": 5, "ricompensa": 250 },
+  { "descrizione": "Fai 3 partenze perfette",                           "criterioChiave": "PARTENZA_PERFETTA", "traguardo": 3, "ricompensa": 300 },
+  { "descrizione": "Sali sul podio 5 volte",                            "criterioChiave": "PODIO",             "traguardo": 5, "ricompensa": 400 },
+  { "descrizione": "Vinci 5 gare",                                      "criterioChiave": "VITTORIA",          "traguardo": 5, "ricompensa": 600 }
+]

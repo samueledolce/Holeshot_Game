@@ -2,8 +2,10 @@ package it.unicam.cs.mpgc.rpg129875.persistence;
 
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,6 +48,18 @@ class CatalogoJsonTest {
 
         assertEquals(0, nuovo.getIndiceTappaCorrente());
         assertEquals(0, nuovo.getPuntiGiocatore());
+    }
+
+    @Test
+    void ogniCarrieraRiceveObiettiviPropriConIProgressiAZero() {
+        CatalogoJson catalogo = new CatalogoJson();
+        List<ObiettivoSponsor> diUnaCarriera = catalogo.nuoviObiettivi();
+        diUnaCarriera.get(0).impostaProgresso(1);
+
+        List<ObiettivoSponsor> diUnAltraCarriera = catalogo.nuoviObiettivi();
+
+        assertFalse(diUnAltraCarriera.isEmpty());
+        assertEquals(0, diUnAltraCarriera.get(0).getProgresso());
     }
 
     @Test

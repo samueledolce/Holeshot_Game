@@ -13,5 +13,6 @@ final class CarrieraDTO {
 
     PilotaDTO pilota;
     CampionatoDTO campionato;
+    List<ObiettivoDTO> obiettivi;
     List<String> storicoRisultati;
 }

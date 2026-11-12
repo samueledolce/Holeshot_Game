@@ -3,8 +3,11 @@ package it.unicam.cs.mpgc.rpg129875.persistence;
 import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
+import it.unicam.cs.mpgc.rpg129875.model.CategoriaMoto;
+import it.unicam.cs.mpgc.rpg129875.model.CriterioPiazzamento;
 import it.unicam.cs.mpgc.rpg129875.model.Gara;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
 import it.unicam.cs.mpgc.rpg129875.model.PistaSabbiosa;
 import it.unicam.cs.mpgc.rpg129875.model.StileAggressivo;
@@ -108,5 +111,80 @@ class RepositorySalvataggiJsonTest {
         assertEquals("SABBIOSA", ricaricata.getPista().codice());
         assertEquals(9, ricaricata.getNumeroAvversari());
         assertEquals(14, ricaricata.getDifficolta());
+    }
+
+    @Test
+    void gliObiettiviSponsorVengonoRicaricatiConIProgressiFatti(@TempDir Path cartellaTemporanea) throws PersistenzaException {
+        RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
+        ObiettivoSponsor cinquePodi = new ObiettivoSponsor("Sali sul podio 5 volte", new CriterioPiazzamento("PODIO", 3), 5, 400);
+        cinquePodi.impostaProgresso(2);
+        Carriera carriera = new Carriera(new Pilota("Ada", new StileAggressivo(), DatiDiProva.motoLeggera()),
+                DatiDiProva.campionatoDiCinqueTappe(), List.of(cinquePodi));
+
+        repository.salva("obiettivi", carriera);
+        ObiettivoSponsor ricaricato = repository.carica("obiettivi").orElseThrow().getObiettivi().get(0);
+
+        assertEquals("Sali sul podio 5 volte", ricaricato.getDescrizione());
+        assertEquals("PODIO", ricaricato.getCriterio().codice());
+        assertEquals(5, ricaricato.getTraguardo());
+        assertEquals(400, ricaricato.getRicompensa());
+        assertEquals(2, ricaricato.getProgresso());
+    }
+
+    @Test
+    void laMotoAcquistataVieneRicaricataConIlSuoPrezzo(@TempDir Path cartellaTemporanea) throws PersistenzaException {
+        RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
+        Moto acquistata = new Moto("Tempesta 250 Racing", CategoriaMoto.MX_250, 76, 76, 68, 400);
+        Carriera carriera = new Carriera(new Pilota("Ada", new StileAggressivo(), acquistata),
+                DatiDiProva.campionatoDiCinqueTappe());
+
+        repository.salva("moto", carriera);
+        Moto ricaricata = repository.carica("moto").orElseThrow().getPilota().getMotoAttuale();
+
+        assertEquals(acquistata, ricaricata);
+        assertEquals(400, ricaricata.getPrezzo());
+        assertEquals(CategoriaMoto.MX_250, ricaricata.getCategoria());
+    }
+
+    /** Un file scritto dalla prima versione del gioco: senza obiettivi, senza difficoltà, senza prezzo della moto. */
+    private static final String SALVATAGGIO_PRIMA_VERSIONE = """
+            {
+              "pilota": {
+                "nome": "Veterano",
+                "stileChiave": "TECNICO",
+                "statistiche": { "riflessi": 57, "concentrazione": 77, "tecnicaPartenza": 72, "resistenza": 57 },
+                "moto": { "nome": "Tempesta 250", "categoria": "MX_250", "potenza": 65, "maneggevolezza": 65, "bonusPartenza": 55 },
+                "livello": 2,
+                "esperienza": 40,
+                "denaro": 350,
+                "abilitaChiavi": ["Sangue Freddo"]
+              },
+              "campionato": {
+                "nome": "Campionato Rookie",
+                "tappe": [
+                  { "nomeTappa": "GP di Maggiora", "pistaChiave": "ASCIUTTA", "numeroAvversari": 5 },
+                  { "nomeTappa": "GP di Loket", "pistaChiave": "FANGOSA", "numeroAvversari": 6 }
+                ],
+                "tappaCorrente": 1,
+                "puntiGiocatore": 25
+              },
+              "storicoRisultati": ["GP di Maggiora: 1° su 6"]
+            }
+            """;
+
+    @Test
+    void unSalvataggioDellaPrimaVersioneSiCaricaAncora(@TempDir Path cartellaTemporanea) throws Exception {
+        RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
+        Files.writeString(cartellaTemporanea.resolve("vecchio.json"), SALVATAGGIO_PRIMA_VERSIONE);
+
+        Carriera carriera = repository.carica("vecchio").orElseThrow();
+
+        assertEquals("Veterano", carriera.getPilota().getNome());
+        assertEquals(2, carriera.getPilota().getLivello());
+        assertEquals(1, carriera.getPilota().getAbilitaSbloccate().size());
+        assertTrue(carriera.getPilota().getMotoAttuale().isDiSerie());
+        assertEquals("GP di Loket", carriera.getCampionatoCorrente().tappaCorrente().getNomeTappa());
+        assertEquals(0, carriera.getCampionatoCorrente().tappaCorrente().getDifficolta());
+        assertTrue(carriera.getObiettivi().isEmpty());
     }
 }

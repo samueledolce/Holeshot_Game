@@ -4,9 +4,13 @@ import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
+import it.unicam.cs.mpgc.rpg129875.model.CatalogoObiettivi;
+import it.unicam.cs.mpgc.rpg129875.model.CriterioPiazzamento;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import it.unicam.cs.mpgc.rpg129875.model.StileTecnico;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +36,11 @@ class GestoreCarrieraTest {
         }
     }
 
-    private final GestoreCarriera gestore = new GestoreCarriera(new DueCampionati());
+    /** Catalogo finto con un solo obiettivo: vincere una gara. */
+    private static final CatalogoObiettivi UN_OBIETTIVO = () -> List.of(
+            new ObiettivoSponsor("Vinci una gara", new CriterioPiazzamento("VITTORIA", 1), 1, 200));
+
+    private final GestoreCarriera gestore = new GestoreCarriera(new DueCampionati(), UN_OBIETTIVO);
 
     private Carriera nuovaCarriera() {
         return gestore.nuovaCarriera("Ada", new StileTecnico(), DatiDiProva.motoMedia());
@@ -45,6 +53,15 @@ class GestoreCarrieraTest {
         assertEquals("Ada", carriera.getPilota().getNome());
         assertEquals("Primo", carriera.getCampionatoCorrente().getNome());
         assertEquals(0, carriera.getCampionatoCorrente().getIndiceTappaCorrente());
+    }
+
+    @Test
+    void unaNuovaCarrieraRiceveGliObiettiviDelloSponsorAncoraDaRaggiungere() {
+        Carriera carriera = nuovaCarriera();
+
+        assertEquals(1, carriera.getObiettivi().size());
+        assertEquals("Vinci una gara", carriera.getObiettivi().get(0).getDescrizione());
+        assertFalse(carriera.getObiettivi().get(0).isCompletato());
     }
 
     @Test

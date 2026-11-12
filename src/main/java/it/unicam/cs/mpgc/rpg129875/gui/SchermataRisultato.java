@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg129875.gui;
 
 import it.unicam.cs.mpgc.rpg129875.engine.EsitoGara;
 import it.unicam.cs.mpgc.rpg129875.model.Abilita;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import it.unicam.cs.mpgc.rpg129875.model.RisultatoGara;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -50,6 +51,13 @@ final class SchermataRisultato {
             Label nuoveAbilita = new Label("Nuove abilità sbloccate: " + nomiAbilita);
             nuoveAbilita.setWrapText(true);
             box.getChildren().add(nuoveAbilita);
+        }
+
+        for (ObiettivoSponsor obiettivo : esito.getObiettiviCompletati()) {
+            Label completato = new Label("Obiettivo sponsor completato: " + obiettivo.getDescrizione()
+                    + " (+" + obiettivo.getRicompensa() + " crediti)");
+            completato.setWrapText(true);
+            box.getChildren().add(completato);
         }
 
         Button continua = new Button("Torna alla carriera");

@@ -5,7 +5,9 @@ import com.google.gson.JsonParseException;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
+import it.unicam.cs.mpgc.rpg129875.model.CatalogoObiettivi;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,22 +19,23 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * I contenuti di gioco (moto e campionati) letti da file JSON inclusi
- * nell'applicazione.
+ * I contenuti di gioco (moto, campionati e obiettivi sponsor) letti da file
+ * JSON inclusi nell'applicazione.
  *
- * <p>Aggiungere una moto, una gara o un intero campionato significa
+ * <p>Aggiungere una moto, una gara, un campionato o un obiettivo significa
  * modificare un file di testo, senza toccare né ricompilare il codice
  * Java. I file vengono letti e controllati una sola volta, alla
  * creazione: se qualcosa non va l'applicazione si ferma subito con un
  * messaggio che indica il problema.</p>
  */
-public final class CatalogoJson implements CatalogoMoto, CatalogoCampionati {
+public final class CatalogoJson implements CatalogoMoto, CatalogoCampionati, CatalogoObiettivi {
 
     /** Cartella, tra le risorse dell'applicazione, in cui si trovano i file dei contenuti. */
     public static final String CARTELLA_PREDEFINITA = "/it/unicam/cs/mpgc/rpg129875/dati/";
 
     private static final String FILE_MOTO = "moto.json";
     private static final String FILE_CAMPIONATI = "campionati.json";
+    private static final String FILE_OBIETTIVI = "obiettivi.json";
 
     private final String cartellaRisorse;
     private final Gson gson = new Gson();
@@ -40,6 +43,7 @@ public final class CatalogoJson implements CatalogoMoto, CatalogoCampionati {
 
     private final List<Moto> moto;
     private final List<CampionatoDTO> modelliCampionato;
+    private final List<ObiettivoDTO> modelliObiettivo;
 
     public CatalogoJson() {
         this(CARTELLA_PREDEFINITA);
@@ -55,6 +59,8 @@ public final class CatalogoJson implements CatalogoMoto, CatalogoCampionati {
         this.moto = convertitore.motoVersoDominio(Arrays.asList(leggi(FILE_MOTO, MotoDTO[].class)));
         this.modelliCampionato = Arrays.asList(leggi(FILE_CAMPIONATI, CampionatoDTO[].class));
         convertitore.controllaCampionati(modelliCampionato);
+        this.modelliObiettivo = Arrays.asList(leggi(FILE_OBIETTIVI, ObiettivoDTO[].class));
+        convertitore.obiettiviVersoDominio(modelliObiettivo);
     }
 
     private <T> T leggi(String nomeFile, Class<T> tipo) {
@@ -96,5 +102,12 @@ public final class CatalogoJson implements CatalogoMoto, CatalogoCampionati {
             }
         }
         return Optional.empty();
+    }
+
+    // ---- CatalogoObiettivi ----
+
+    @Override
+    public List<ObiettivoSponsor> nuoviObiettivi() {
+        return convertitore.obiettiviVersoDominio(modelliObiettivo);
     }
 }

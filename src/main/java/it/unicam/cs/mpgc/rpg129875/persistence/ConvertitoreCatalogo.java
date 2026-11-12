@@ -3,11 +3,13 @@ package it.unicam.cs.mpgc.rpg129875.persistence;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.CategoriaMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Trasforma i contenuti di gioco letti dai file JSON (DTO) negli oggetti
@@ -105,6 +107,27 @@ final class ConvertitoreCatalogo {
             return convertitoreCarriera.campionatoVersoDominio(dto);
         } catch (IllegalArgumentException e) {
             throw new CatalogoNonValidoException("Il campionato \"" + dto.nome + "\" non è valido: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    // ---- Obiettivi sponsor ----
+
+    /** Crea obiettivi nuovi, con i progressi a zero, a partire dai loro modelli. */
+    List<ObiettivoSponsor> obiettiviVersoDominio(List<ObiettivoDTO> elenco) {
+        return elenco.stream().map(this::obiettivoVersoDominio).collect(Collectors.toList());
+    }
+
+    private ObiettivoSponsor obiettivoVersoDominio(ObiettivoDTO dto) {
+        if (dto == null || dto.descrizione == null || dto.descrizione.isBlank()) {
+            throw new CatalogoNonValidoException("Un obiettivo sponsor non ha la descrizione.");
+        }
+        try {
+            ObiettivoSponsor obiettivo = convertitoreCarriera.obiettivoVersoDominio(dto);
+            obiettivo.impostaProgresso(0);
+            return obiettivo;
+        } catch (IllegalArgumentException e) {
+            throw new CatalogoNonValidoException("L'obiettivo \"" + dto.descrizione + "\" non è valido: "
                     + e.getMessage(), e);
         }
     }

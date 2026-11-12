@@ -5,7 +5,9 @@ import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoAbilita;
 import it.unicam.cs.mpgc.rpg129875.model.CondizionePista;
+import it.unicam.cs.mpgc.rpg129875.model.CriterioObiettivo;
 import it.unicam.cs.mpgc.rpg129875.model.Gara;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
 import it.unicam.cs.mpgc.rpg129875.model.Registri;
 import it.unicam.cs.mpgc.rpg129875.model.Registro;
@@ -24,24 +26,27 @@ import java.util.stream.Collectors;
  * <p>Al posto di un oggetto il cui tipo è un'interfaccia, nel DTO viene
  * scritto il suo codice; in lettura il codice viene ritradotto
  * nell'oggetto tramite un {@link Registro}. Il convertitore non conosce
- * quindi nessuna implementazione concreta: uno stile di guida o una
- * condizione di pista aggiunti in futuro vengono salvati e ricaricati
- * senza modificare questa classe.</p>
+ * quindi nessuna implementazione concreta: uno stile di guida, una
+ * condizione di pista o un criterio aggiunti in futuro vengono salvati e
+ * ricaricati senza modificare questa classe.</p>
  */
 final class ConvertitoreCarriera {
 
     private final Registro<StileDiGuida> stili;
     private final Registro<CondizionePista> condizioniPista;
+    private final Registro<CriterioObiettivo> criteriObiettivo;
     private final CatalogoAbilita catalogoAbilita;
 
     ConvertitoreCarriera() {
-        this(Registri.stiliDiGuida(), Registri.condizioniPista(), new CatalogoAbilita());
+        this(Registri.stiliDiGuida(), Registri.condizioniPista(), Registri.criteriObiettivo(),
+                new CatalogoAbilita());
     }
 
     ConvertitoreCarriera(Registro<StileDiGuida> stili, Registro<CondizionePista> condizioniPista,
-                         CatalogoAbilita catalogoAbilita) {
+                         Registro<CriterioObiettivo> criteriObiettivo, CatalogoAbilita catalogoAbilita) {
         this.stili = stili;
         this.condizioniPista = condizioniPista;
+        this.criteriObiettivo = criteriObiettivo;
         this.catalogoAbilita = catalogoAbilita;
     }
 
@@ -49,6 +54,7 @@ final class ConvertitoreCarriera {
         CarrieraDTO dto = new CarrieraDTO();
         dto.pilota = versoDto(carriera.getPilota());
         dto.campionato = versoDto(carriera.getCampionatoCorrente());
+        dto.obiettivi = carriera.getObiettivi().stream().map(this::versoDto).collect(Collectors.toList());
         dto.storicoRisultati = List.copyOf(carriera.getStoricoRisultati());
         return dto;
     }
@@ -61,7 +67,11 @@ final class ConvertitoreCarriera {
         if (dto.pilota == null || dto.campionato == null) {
             throw new IllegalArgumentException("Salvataggio incompleto: mancano il pilota o il campionato.");
         }
-        Carriera carriera = new Carriera(pilotaVersoDominio(dto.pilota), campionatoVersoDominio(dto.campionato));
+        List<ObiettivoSponsor> obiettivi = elencoOVuoto(dto.obiettivi).stream()
+                .map(this::obiettivoVersoDominio)
+                .collect(Collectors.toList());
+        Carriera carriera = new Carriera(pilotaVersoDominio(dto.pilota), campionatoVersoDominio(dto.campionato),
+                obiettivi);
         for (String risultato : elencoOVuoto(dto.storicoRisultati)) {
             carriera.aggiungiRisultato(risultato);
         }
@@ -134,6 +144,25 @@ final class ConvertitoreCarriera {
     private Gara garaVersoDominio(GaraDTO dto) {
         return new Gara(dto.nomeTappa, condizioniPista.perCodice(dto.pistaChiave), dto.numeroAvversari,
                 dto.difficolta);
+    }
+
+    // ---- Obiettivi sponsor ----
+
+    private ObiettivoDTO versoDto(ObiettivoSponsor obiettivo) {
+        ObiettivoDTO dto = new ObiettivoDTO();
+        dto.descrizione = obiettivo.getDescrizione();
+        dto.criterioChiave = obiettivo.getCriterio().codice();
+        dto.traguardo = obiettivo.getTraguardo();
+        dto.ricompensa = obiettivo.getRicompensa();
+        dto.progresso = obiettivo.getProgresso();
+        return dto;
+    }
+
+    ObiettivoSponsor obiettivoVersoDominio(ObiettivoDTO dto) {
+        ObiettivoSponsor obiettivo = new ObiettivoSponsor(dto.descrizione,
+                criteriObiettivo.perCodice(dto.criterioChiave), dto.traguardo, dto.ricompensa);
+        obiettivo.impostaProgresso(dto.progresso);
+        return obiettivo;
     }
 
     /** Un elenco assente nel file (es. salvataggio di una versione precedente) equivale a un elenco vuoto. */

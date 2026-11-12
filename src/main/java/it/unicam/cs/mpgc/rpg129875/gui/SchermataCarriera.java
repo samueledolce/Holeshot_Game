@@ -5,6 +5,7 @@ import it.unicam.cs.mpgc.rpg129875.model.Abilita;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.Gara;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,6 +46,11 @@ final class SchermataCarriera {
         Label campionatoLabel = new Label("Campionato: " + campionato.getNome()
                 + " (" + campionato.getPuntiGiocatore() + " punti)");
 
+        VBox obiettivi = new VBox(4, new Label("Obiettivi sponsor:"));
+        for (ObiettivoSponsor obiettivo : carriera.getObiettivi()) {
+            obiettivi.getChildren().add(new Label(descrizione(obiettivo)));
+        }
+
         Button prossimaGara = pulsanteProssimaGara(navigatore, carriera, gestoreCarriera);
 
         TextField campoNomeSalvataggio = new TextField(pilota.getNome());
@@ -68,11 +74,18 @@ final class SchermataCarriera {
         HBox rigaSalvataggio = new HBox(8, campoNomeSalvataggio, salva, esitoSalvataggio);
         rigaSalvataggio.setAlignment(Pos.CENTER_LEFT);
 
-        VBox box = new VBox(10, titolo, stile, statistiche, moto, denaro, abilita, campionatoLabel,
+        VBox box = new VBox(10, titolo, stile, statistiche, moto, denaro, abilita, campionatoLabel, obiettivi,
                 prossimaGara, vaiAlNegozio, rigaSalvataggio, menuPrincipale);
         box.setPadding(new Insets(30));
         box.setMaxWidth(560);
         return box;
+    }
+
+    private static String descrizione(ObiettivoSponsor obiettivo) {
+        String stato = obiettivo.isCompletato()
+                ? "completato"
+                : obiettivo.getProgresso() + " su " + obiettivo.getTraguardo();
+        return obiettivo.getDescrizione() + " (" + stato + ") - " + obiettivo.getRicompensa() + " crediti";
     }
 
     private static Button pulsanteProssimaGara(Navigatore navigatore, Carriera carriera,

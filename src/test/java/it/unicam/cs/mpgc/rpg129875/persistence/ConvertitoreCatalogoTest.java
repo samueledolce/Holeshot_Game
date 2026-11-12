@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg129875.persistence;
 
 import it.unicam.cs.mpgc.rpg129875.model.CategoriaMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
+import it.unicam.cs.mpgc.rpg129875.model.ObiettivoSponsor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -94,5 +95,37 @@ class ConvertitoreCatalogoTest {
     @Test
     void unElencoDiCampionatiVuotoVieneRifiutato() {
         assertThrows(CatalogoNonValidoException.class, () -> convertitore.controllaCampionati(List.of()));
+    }
+
+    private static ObiettivoDTO obiettivo(String descrizione, String codiceCriterio, int traguardo) {
+        ObiettivoDTO dto = new ObiettivoDTO();
+        dto.descrizione = descrizione;
+        dto.criterioChiave = codiceCriterio;
+        dto.traguardo = traguardo;
+        dto.ricompensa = 100;
+        return dto;
+    }
+
+    @Test
+    void gliObiettiviDelCatalogoPartonoSempreDaZero() {
+        ObiettivoDTO modello = obiettivo("Sali sul podio 3 volte", "PODIO", 3);
+        modello.progresso = 2;
+
+        List<ObiettivoSponsor> obiettivi = convertitore.obiettiviVersoDominio(List.of(modello));
+
+        assertEquals(0, obiettivi.get(0).getProgresso());
+        assertEquals(3, obiettivi.get(0).getTraguardo());
+    }
+
+    @Test
+    void unObiettivoConCriterioSconosciutoVieneRifiutato() {
+        assertThrows(CatalogoNonValidoException.class,
+                () -> convertitore.obiettiviVersoDominio(List.of(obiettivo("Fai un salto mortale", "SALTO_MORTALE", 1))));
+    }
+
+    @Test
+    void unObiettivoSenzaTraguardoVieneRifiutato() {
+        assertThrows(CatalogoNonValidoException.class,
+                () -> convertitore.obiettiviVersoDominio(List.of(obiettivo("Sali sul podio", "PODIO", 0))));
     }
 }

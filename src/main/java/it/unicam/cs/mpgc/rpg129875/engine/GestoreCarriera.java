@@ -3,6 +3,7 @@ package it.unicam.cs.mpgc.rpg129875.engine;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
+import it.unicam.cs.mpgc.rpg129875.model.CatalogoObiettivi;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
 import it.unicam.cs.mpgc.rpg129875.model.StileDiGuida;
@@ -20,13 +21,16 @@ import java.util.Optional;
 public final class GestoreCarriera {
 
     private final CatalogoCampionati catalogoCampionati;
+    private final CatalogoObiettivi catalogoObiettivi;
 
-    public GestoreCarriera(CatalogoCampionati catalogoCampionati) {
+    public GestoreCarriera(CatalogoCampionati catalogoCampionati, CatalogoObiettivi catalogoObiettivi) {
         this.catalogoCampionati = catalogoCampionati;
+        this.catalogoObiettivi = catalogoObiettivi;
     }
 
     /**
-     * Crea una carriera che parte dal primo campionato del catalogo.
+     * Crea una carriera che parte dal primo campionato del catalogo, con
+     * gli obiettivi sponsor ancora tutti da raggiungere.
      *
      * @throws IllegalArgumentException se il nome del pilota è vuoto
      */
@@ -35,7 +39,7 @@ public final class GestoreCarriera {
             throw new IllegalArgumentException("Il pilota deve avere un nome.");
         }
         Pilota pilota = new Pilota(nomePilota.trim(), stile, motoIniziale);
-        return new Carriera(pilota, catalogoCampionati.primo());
+        return new Carriera(pilota, catalogoCampionati.primo(), catalogoObiettivi.nuoviObiettivi());
     }
 
     /** Il campionato a cui il giocatore può passare: esiste solo quando quello in corso è concluso. */
