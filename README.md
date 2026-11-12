@@ -1,12 +1,13 @@
 # 🏍️ Holeshot
 
 Un gioco di ruolo di carriera motocross incentrato sulla partenza al cancelletto:
-crei un pilota, scegli il suo stile di guida e la sua moto, e affronti un
-campionato in cui **la partenza è tutto**. Un minigioco di reazione
-determina la qualità della partenza, che insieme alle statistiche del
-pilota decide il piazzamento finale di ogni gara. Vincendo gare il pilota
-guadagna esperienza, sale di livello, sblocca abilità e accumula crediti
-sponsor.
+crei un pilota, scegli il suo stile di guida e la sua moto, e affronti tre
+campionati di difficoltà crescente in cui **la partenza è tutto**. Un
+minigioco di reazione determina la qualità della partenza, che insieme alle
+statistiche del pilota e alla moto decide il piazzamento finale di ogni
+gara. Gara dopo gara il pilota guadagna esperienza, sale di livello, sblocca
+abilità, raggiunge gli obiettivi dello sponsor e accumula crediti con cui
+comprare moto migliori.
 
 Progetto sviluppato per l'esame di Metodologie di Programmazione e
 Modellazione della Conoscenza (AA 2025/26), Università di Camerino.
@@ -44,14 +45,20 @@ nella cartella `saves/` (in formato JSON leggibile).
 ## 🎮 Come si gioca
 
 1. **Nuova carriera**: scegli nome, stile di guida (Aggressivo / Tecnico /
-   Equilibrato) e moto iniziale.
-2. **Al cancelletto**: quando il rettangolo diventa verde e appare "VIA!!!",
-   premi **SCATTA!** il più velocemente possibile. Premerlo troppo presto è
-   una falsa partenza.
+   Equilibrato) e moto di serie.
+2. **Al cancelletto**: quando la luce diventa verde e la sbarra cade, premi
+   **SCATTA!** il più velocemente possibile. Premerlo troppo presto è una
+   falsa partenza.
 3. **Risultato**: la qualità della partenza, le statistiche del pilota e la
-   moto determinano il piazzamento in gara. Guadagni esperienza e crediti
-   sponsor, puoi salire di livello e sbloccare nuove abilità.
-4. **Salva** la carriera in qualsiasi momento dalla schermata di carriera e
+   moto determinano il piazzamento. Guadagni esperienza e crediti sponsor,
+   puoi salire di livello e sbloccare nuove abilità.
+4. **Obiettivi sponsor**: podi, vittorie e partenze perfette fanno avanzare
+   gli obiettivi dello sponsor, che pagano una ricompensa in crediti.
+5. **Negozio**: con i crediti compri una moto migliore, cedendo la tua in
+   permuta. Serve: gli avversari diventano più forti a ogni campionato.
+6. **Campionati**: concluso il Campionato Rookie si passa al Nazionale e
+   poi al Mondiale.
+7. **Salva** la carriera in qualsiasi momento dalla schermata di carriera e
    ricaricala dal menu principale.
 
 ## 🏗️ Architettura (in breve)
@@ -60,16 +67,22 @@ Il progetto è organizzato in quattro package sotto
 `it.unicam.cs.mpgc.rpg129875`:
 
 - `model` — le entità di dominio (Pilota, Moto, Abilità, Condizioni di
-  pista, Campionato, Carriera...) e i contratti (interfacce) che permettono
-  di estendere il gioco senza modificare il codice esistente.
+  pista, Campionato, Obiettivi sponsor, Carriera...) e i contratti
+  (interfacce) che permettono di estendere il gioco senza modificare il
+  codice esistente.
 - `engine` — la logica di gioco (progressione, generazione avversari,
-  calcolo del piazzamento, risoluzione della partenza), separata dal
-  modello e dalla interfaccia grafica.
-- `persistence` — il salvataggio/caricamento su file JSON, nascosto dietro
-  un'interfaccia generica (`RepositorySalvataggi<T>`) per poter cambiare
-  meccanismo di persistenza in futuro senza toccare il resto del codice.
+  calcolo del piazzamento, negozio, obiettivi, percorso di carriera),
+  separata dal modello e dalla interfaccia grafica.
+- `persistence` — la lettura e scrittura dei file JSON: i salvataggi, dietro
+  l'interfaccia generica `RepositorySalvataggi<T>`, e i contenuti di gioco.
 - `gui` — l'interfaccia grafica JavaFX, che dipende solo dalle astrazioni
   di `engine`/`persistence`/`model`, mai il contrario.
+
+I **contenuti di gioco** (moto, campionati, gare, obiettivi) non sono
+scritti nel codice: stanno in file JSON in
+`src/main/resources/.../dati/`, e si possono modificare o ampliare senza
+toccare il codice Java. L'**aspetto** dell'applicazione sta nel foglio di
+stile `src/main/resources/.../grafica/holeshot.css`.
 
 Per la descrizione dettagliata delle responsabilità di ogni classe, delle
 scelte di design e dei meccanismi di estendibilità, vedi la **Wiki** del
@@ -85,23 +98,20 @@ Questo progetto è stato sviluppato in collaborazione con **Claude**
 - discutere e progettare insieme il concept del gioco (un GdR di carriera
   motocross incentrato sulla partenza al cancelletto) e l'architettura
   del software (package, interfacce, rispetto dei principi SOLID);
-- generare una prima versione del codice sorgente (modello di dominio,
-  motore di gioco, persistenza JSON, interfaccia grafica JavaFX, test);
-- generare e verificare i test JUnit e degli smoke test manuali eseguiti
-  durante lo sviluppo per validare la logica di progressione, di
-  piazzamento gara e di conversione per la persistenza;
+- generare il codice sorgente (modello di dominio, motore di gioco,
+  persistenza JSON, interfaccia grafica JavaFX) e i test JUnit;
+- disegnare gli sfondi, tramite uno script che li genera da zero
+  (`strumenti/genera_sfondi.py`): non derivano da immagini di terzi;
 - scrivere la documentazione (README e Wiki).
 
-La logica di dominio e del motore di gioco (che non dipende da librerie
-esterne) è stata compilata ed eseguita realmente durante lo sviluppo con
-`javac`/`java`, oltre ai test JUnit inclusi nel progetto. L'ambiente di
-sviluppo cloud usato da Claude non aveva invece accesso a Internet per
-scaricare le dipendenze Java (JavaFX, Gson, JUnit), quindi la parte di
-interfaccia grafica e le chiamate dirette a Gson non hanno potuto essere
-compilate in quell'ambiente: vanno collaudate con `./gradlew build` /
-`./gradlew run` su una macchina con normale accesso a Internet. Per la
-dichiarazione completa sull'uso dell'AI (compresa questa limitazione), vedi
-la pagina *Dichiarazione uso AI* nella Wiki del repository.
+La logica di gioco è coperta dai test JUnit del progetto, che Claude ha
+eseguito durante lo sviluppo. L'ambiente cloud usato da Claude non può però
+scaricare le librerie Java (JavaFX, Gson, JUnit): per compilare ed eseguire
+i test ha usato delle sostitute scritte apposta, e non ha potuto avviare
+l'interfaccia grafica. La verifica con le librerie vere (`./gradlew build`
+e `./gradlew run`) avviene sul computer dello studente. Per
+la dichiarazione completa, vedi la pagina *Dichiarazione uso AI* nella Wiki
+del repository.
 
 ---
 
