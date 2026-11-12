@@ -12,12 +12,12 @@
   {
     "nome": "Campionato Nazionale",
     "tappe": [
-      { "nomeTappa": "Trofeo di Mantova",              "pistaChiave": "SABBIOSA", "numeroAvversari": 8,  "difficolta": 8 },
-      { "nomeTappa": "Trofeo di Arco di Trento",       "pistaChiave": "ASCIUTTA", "numeroAvversari": 8,  "difficolta": 10 },
-      { "nomeTappa": "Trofeo di Ponte a Egola",        "pistaChiave": "FANGOSA",  "numeroAvversari": 9,  "difficolta": 12 },
-      { "nomeTappa": "Trofeo di Montevarchi",          "pistaChiave": "ASCIUTTA", "numeroAvversari": 9,  "difficolta": 14 },
-      { "nomeTappa": "Trofeo di Castiglione del Lago", "pistaChiave": "FANGOSA",  "numeroAvversari": 10, "difficolta": 16 },
-      { "nomeTappa": "Trofeo di Fermo",                "pistaChiave": "ASCIUTTA", "numeroAvversari": 10, "difficolta": 18 }
+      { "nomeTappa": "Trofeo di Mantova",              "pistaChiave": "SABBIOSA", "numeroAvversari": 8,  "difficolta": 10 },
+      { "nomeTappa": "Trofeo di Arco di Trento",       "pistaChiave": "ASCIUTTA", "numeroAvversari": 8,  "difficolta": 12 },
+      { "nomeTappa": "Trofeo di Ponte a Egola",        "pistaChiave": "FANGOSA",  "numeroAvversari": 9,  "difficolta": 14 },
+      { "nomeTappa": "Trofeo di Montevarchi",          "pistaChiave": "ASCIUTTA", "numeroAvversari": 9,  "difficolta": 16 },
+      { "nomeTappa": "Trofeo di Castiglione del Lago", "pistaChiave": "FANGOSA",  "numeroAvversari": 10, "difficolta": 18 },
+      { "nomeTappa": "Trofeo di Fermo",                "pistaChiave": "ASCIUTTA", "numeroAvversari": 10, "difficolta": 20 }
     ]
   },
   {
