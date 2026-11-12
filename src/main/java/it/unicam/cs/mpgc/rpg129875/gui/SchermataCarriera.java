@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg129875.gui;
 
+import it.unicam.cs.mpgc.rpg129875.engine.GestoreCarriera;
 import it.unicam.cs.mpgc.rpg129875.model.Abilita;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /** Schermata "hub" di carriera: statistiche del pilota, prossima gara, salvataggio. */
@@ -22,7 +24,7 @@ final class SchermataCarriera {
     private SchermataCarriera() {
     }
 
-    static Parent crea(Navigatore navigatore, Carriera carriera) {
+    static Parent crea(Navigatore navigatore, Carriera carriera, GestoreCarriera gestoreCarriera) {
         Pilota pilota = carriera.getPilota();
         Campionato campionato = carriera.getCampionatoCorrente();
 
@@ -43,7 +45,7 @@ final class SchermataCarriera {
         Label campionatoLabel = new Label("Campionato: " + campionato.getNome()
                 + " (" + campionato.getPuntiGiocatore() + " punti)");
 
-        Button prossimaGara = pulsanteProssimaGara(navigatore, campionato);
+        Button prossimaGara = pulsanteProssimaGara(navigatore, carriera, gestoreCarriera);
 
         TextField campoNomeSalvataggio = new TextField(pilota.getNome());
         Button salva = new Button("Salva carriera");
@@ -70,16 +72,24 @@ final class SchermataCarriera {
         return box;
     }
 
-    private static Button pulsanteProssimaGara(Navigatore navigatore, Campionato campionato) {
-        if (campionato.isConcluso()) {
-            Button bottone = new Button("Campionato concluso");
-            bottone.setDisable(true);
+    private static Button pulsanteProssimaGara(Navigatore navigatore, Carriera carriera,
+                                               GestoreCarriera gestoreCarriera) {
+        Campionato campionato = carriera.getCampionatoCorrente();
+        if (!campionato.isConcluso()) {
+            Gara prossima = campionato.tappaCorrente();
+            Button bottone = new Button("Vai alla partenza: " + prossima.getNomeTappa()
+                    + " (" + prossima.getPista().nome() + ")");
+            bottone.setOnAction(evento -> navigatore.mostraGara());
             return bottone;
         }
-        Gara prossima = campionato.tappaCorrente();
-        Button bottone = new Button("Vai alla partenza: " + prossima.getNomeTappa()
-                + " (" + prossima.getPista().nome() + ")");
-        bottone.setOnAction(evento -> navigatore.mostraGara());
+        Optional<Campionato> prossimoCampionato = gestoreCarriera.prossimoCampionato(carriera);
+        if (prossimoCampionato.isPresent()) {
+            Button bottone = new Button("Inizia il " + prossimoCampionato.get().getNome());
+            bottone.setOnAction(evento -> navigatore.passaAlProssimoCampionato());
+            return bottone;
+        }
+        Button bottone = new Button("Hai completato tutti i campionati");
+        bottone.setDisable(true);
         return bottone;
     }
 }

@@ -3,12 +3,16 @@ package it.unicam.cs.mpgc.rpg129875.gui;
 import it.unicam.cs.mpgc.rpg129875.engine.CalcolatorePiazzamentoStandard;
 import it.unicam.cs.mpgc.rpg129875.engine.EsitoGara;
 import it.unicam.cs.mpgc.rpg129875.engine.GeneratoreAvversariCasuale;
+import it.unicam.cs.mpgc.rpg129875.engine.GestoreCarriera;
 import it.unicam.cs.mpgc.rpg129875.engine.GestoreProgressione;
 import it.unicam.cs.mpgc.rpg129875.engine.MotoreDiGara;
 import it.unicam.cs.mpgc.rpg129875.engine.RisolutorePartenza;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
+import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Gara;
+import it.unicam.cs.mpgc.rpg129875.model.Registri;
 import it.unicam.cs.mpgc.rpg129875.model.RisultatoPartenza;
+import it.unicam.cs.mpgc.rpg129875.persistence.CatalogoJson;
 import it.unicam.cs.mpgc.rpg129875.persistence.PersistenzaException;
 import it.unicam.cs.mpgc.rpg129875.persistence.RepositorySalvataggi;
 import it.unicam.cs.mpgc.rpg129875.persistence.RepositorySalvataggiJson;
@@ -42,20 +46,38 @@ public final class HoleshotApplication extends Application implements Navigatore
     private Stage stage;
     private Carriera carrieraCorrente;
 
-    private final RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(Path.of("saves"));
-    private final GestoreProgressione gestoreProgressione = new GestoreProgressione();
-    private final MotoreDiGara motoreDiGara = new MotoreDiGara(
-            new GeneratoreAvversariCasuale(),
-            new CalcolatorePiazzamentoStandard(),
-            gestoreProgressione
-    );
-    private final RisolutorePartenza risolutorePartenza = new RisolutorePartenza();
+    private RepositorySalvataggi<Carriera> repository;
+    private CatalogoMoto catalogoMoto;
+    private GestoreCarriera gestoreCarriera;
+    private MotoreDiGara motoreDiGara;
+    private RisolutorePartenza risolutorePartenza;
 
     private final ExecutorService esecutoreIO = Executors.newSingleThreadExecutor(compito -> {
         Thread thread = new Thread(compito, "holeshot-io");
         thread.setDaemon(true);
         return thread;
     });
+
+    /**
+     * Crea i servizi dell'applicazione e li collega tra loro. È l'unico
+     * punto in cui vengono scelte le implementazioni concrete: tutto il
+     * resto del codice lavora sulle interfacce. JavaFX esegue questo
+     * metodo prima di {@link #start(Stage)} e fuori dal thread grafico,
+     * quindi la lettura dei file dei contenuti non rallenta la finestra.
+     */
+    @Override
+    public void init() {
+        CatalogoJson catalogo = new CatalogoJson();
+        this.catalogoMoto = catalogo;
+        this.gestoreCarriera = new GestoreCarriera(catalogo);
+        this.repository = new RepositorySalvataggiJson(Path.of("saves"));
+        this.motoreDiGara = new MotoreDiGara(
+                new GeneratoreAvversariCasuale(),
+                new CalcolatorePiazzamentoStandard(),
+                new GestoreProgressione()
+        );
+        this.risolutorePartenza = new RisolutorePartenza();
+    }
 
     @Override
     public void start(Stage stagePrimario) {
@@ -84,7 +106,8 @@ public final class HoleshotApplication extends Application implements Navigatore
 
     @Override
     public void mostraCreazionePilota() {
-        mostra(SchermataCreazionePilota.crea(this));
+        mostra(SchermataCreazionePilota.crea(this, Registri.stiliDiGuida().tutti(), catalogoMoto.diSerie(),
+                gestoreCarriera));
     }
 
     @Override
@@ -95,7 +118,13 @@ public final class HoleshotApplication extends Application implements Navigatore
 
     @Override
     public void mostraCarriera() {
-        mostra(SchermataCarriera.crea(this, carrieraCorrente));
+        mostra(SchermataCarriera.crea(this, carrieraCorrente, gestoreCarriera));
+    }
+
+    @Override
+    public void passaAlProssimoCampionato() {
+        gestoreCarriera.passaAlProssimoCampionato(carrieraCorrente);
+        mostraCarriera();
     }
 
     @Override

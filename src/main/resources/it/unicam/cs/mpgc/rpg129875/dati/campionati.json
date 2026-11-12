@@ -1,0 +1,34 @@
+[
+  {
+    "nome": "Campionato Rookie",
+    "tappe": [
+      { "nomeTappa": "GP di Maggiora",  "pistaChiave": "ASCIUTTA", "numeroAvversari": 5 },
+      { "nomeTappa": "GP di Loket",     "pistaChiave": "FANGOSA",  "numeroAvversari": 6 },
+      { "nomeTappa": "GP di Lacapelle", "pistaChiave": "SABBIOSA", "numeroAvversari": 6 },
+      { "nomeTappa": "GP di Assen",     "pistaChiave": "ASCIUTTA", "numeroAvversari": 7 },
+      { "nomeTappa": "GP di Ottobiano", "pistaChiave": "FANGOSA",  "numeroAvversari": 7 }
+    ]
+  },
+  {
+    "nome": "Campionato Nazionale",
+    "tappe": [
+      { "nomeTappa": "Trofeo di Mantova",             "pistaChiave": "SABBIOSA", "numeroAvversari": 8 },
+      { "nomeTappa": "Trofeo di Arco di Trento",      "pistaChiave": "ASCIUTTA", "numeroAvversari": 8 },
+      { "nomeTappa": "Trofeo di Ponte a Egola",       "pistaChiave": "FANGOSA",  "numeroAvversari": 9 },
+      { "nomeTappa": "Trofeo di Montevarchi",         "pistaChiave": "ASCIUTTA", "numeroAvversari": 9 },
+      { "nomeTappa": "Trofeo di Castiglione del Lago", "pistaChiave": "FANGOSA",  "numeroAvversari": 10 },
+      { "nomeTappa": "Trofeo di Fermo",               "pistaChiave": "ASCIUTTA", "numeroAvversari": 10 }
+    ]
+  },
+  {
+    "nome": "Campionato Mondiale",
+    "tappe": [
+      { "nomeTappa": "GP di Matterley Basin", "pistaChiave": "FANGOSA",  "numeroAvversari": 10 },
+      { "nomeTappa": "GP di Lommel",          "pistaChiave": "SABBIOSA", "numeroAvversari": 11 },
+      { "nomeTappa": "GP di Teutschenthal",   "pistaChiave": "ASCIUTTA", "numeroAvversari": 12 },
+      { "nomeTappa": "GP di Kegums",          "pistaChiave": "SABBIOSA", "numeroAvversari": 12 },
+      { "nomeTappa": "GP di Agueda",          "pistaChiave": "ASCIUTTA", "numeroAvversari": 13 },
+      { "nomeTappa": "GP di Pietramurata",    "pistaChiave": "ASCIUTTA", "numeroAvversari": 14 }
+    ]
+  }
+]

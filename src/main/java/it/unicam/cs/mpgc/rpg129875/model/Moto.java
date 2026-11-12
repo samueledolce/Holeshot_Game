@@ -1,9 +1,11 @@
 package it.unicam.cs.mpgc.rpg129875.model;
 
 /**
- * Una moto da cross utilizzabile dal pilota. Incide sulla partenza tramite
- * {@link #getBonusPartenza()} (elettronica/frizione più o meno pronta) e sul
- * resto della gara tramite potenza e maneggevolezza.
+ * Una moto da cross utilizzabile dal pilota: potenza, maneggevolezza e
+ * prontezza in partenza ne determinano la qualità complessiva, che incide
+ * sul piazzamento in gara. Il prezzo è espresso in crediti sponsor; le moto
+ * di serie non costano nulla e sono quelle tra cui si sceglie a inizio
+ * carriera.
  */
 public final class Moto {
 
@@ -12,13 +14,21 @@ public final class Moto {
     private final int potenza;
     private final int maneggevolezza;
     private final int bonusPartenza;
+    private final int prezzo;
 
+    /** Crea una moto di serie, cioè gratuita. */
     public Moto(String nome, CategoriaMoto categoria, int potenza, int maneggevolezza, int bonusPartenza) {
+        this(nome, categoria, potenza, maneggevolezza, bonusPartenza, 0);
+    }
+
+    public Moto(String nome, CategoriaMoto categoria, int potenza, int maneggevolezza, int bonusPartenza,
+                int prezzo) {
         this.nome = nome;
         this.categoria = categoria;
         this.potenza = potenza;
         this.maneggevolezza = maneggevolezza;
         this.bonusPartenza = bonusPartenza;
+        this.prezzo = prezzo;
     }
 
     public String getNome() {
@@ -39,6 +49,14 @@ public final class Moto {
 
     public int getBonusPartenza() {
         return bonusPartenza;
+    }
+
+    public int getPrezzo() {
+        return prezzo;
+    }
+
+    public boolean isDiSerie() {
+        return prezzo == 0;
     }
 
     public int punteggioComplessivo() {

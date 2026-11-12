@@ -1,12 +1,7 @@
 package it.unicam.cs.mpgc.rpg129875.gui;
 
-import it.unicam.cs.mpgc.rpg129875.model.Campionato;
-import it.unicam.cs.mpgc.rpg129875.model.Carriera;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
+import it.unicam.cs.mpgc.rpg129875.engine.GestoreCarriera;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
-import it.unicam.cs.mpgc.rpg129875.model.Pilota;
-import it.unicam.cs.mpgc.rpg129875.model.Registri;
 import it.unicam.cs.mpgc.rpg129875.model.StileDiGuida;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,14 +22,14 @@ final class SchermataCreazionePilota {
     private SchermataCreazionePilota() {
     }
 
-    static Parent crea(Navigatore navigatore) {
+    static Parent crea(Navigatore navigatore, List<StileDiGuida> stili, List<Moto> motoDiSerie,
+                       GestoreCarriera gestoreCarriera) {
         Label titolo = new Label("Crea il tuo pilota");
         titolo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
         TextField campoNome = new TextField();
         campoNome.setPromptText("Nome del pilota");
 
-        List<StileDiGuida> stili = Registri.stiliDiGuida().tutti();
         ComboBox<StileDiGuida> comboStile = new ComboBox<>();
         comboStile.getItems().addAll(stili);
         comboStile.setConverter(convertitoreVisualizzazione(StileDiGuida::nome));
@@ -46,9 +41,8 @@ final class SchermataCreazionePilota {
                 descrizioneStile.setText(nuovo == null ? "" : nuovo.descrizione()));
         comboStile.getSelectionModel().selectFirst();
 
-        List<Moto> moto = CatalogoMoto.disponibiliPerNuovaCarriera();
         ComboBox<Moto> comboMoto = new ComboBox<>();
-        comboMoto.getItems().addAll(moto);
+        comboMoto.getItems().addAll(motoDiSerie);
         comboMoto.setConverter(convertitoreVisualizzazione(Moto::getNome));
         comboMoto.getSelectionModel().selectFirst();
 
@@ -63,9 +57,8 @@ final class SchermataCreazionePilota {
                 errore.setText("Inserisci un nome per il tuo pilota.");
                 return;
             }
-            Pilota pilota = new Pilota(nome, comboStile.getValue(), comboMoto.getValue());
-            Campionato campionato = CatalogoCampionati.nuovoCampionatoRookie();
-            navigatore.avviaCarriera(new Carriera(pilota, campionato));
+            navigatore.avviaCarriera(
+                    gestoreCarriera.nuovaCarriera(nome, comboStile.getValue(), comboMoto.getValue()));
         });
 
         Button indietro = new Button("Indietro");

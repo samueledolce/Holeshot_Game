@@ -1,8 +1,7 @@
 package it.unicam.cs.mpgc.rpg129875.persistence;
 
+import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
@@ -27,10 +26,10 @@ class RepositorySalvataggiJsonTest {
     void unaCarrieraSalvataVieneRicaricataIdentica(@TempDir Path cartellaTemporanea) throws PersistenzaException {
         RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
 
-        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(1);
+        Moto moto = DatiDiProva.motoMedia();
         Pilota pilota = new Pilota("Marco", new StileTecnico(), moto);
         pilota.aggiungiDenaro(150);
-        Campionato campionato = CatalogoCampionati.nuovoCampionatoRookie();
+        Campionato campionato = DatiDiProva.campionatoDiCinqueTappe();
         Carriera carriera = new Carriera(pilota, campionato);
         carriera.aggiungiRisultato("Prima gara: 3° su 6");
 
@@ -49,10 +48,10 @@ class RepositorySalvataggiJsonTest {
     @Test
     void elencaSalvataggiRestituisceINomiSalvati(@TempDir Path cartellaTemporanea) throws PersistenzaException {
         RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
-        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(0);
+        Moto moto = DatiDiProva.motoLeggera();
         Carriera carriera = new Carriera(
                 new Pilota("Ada", new StileAggressivo(), moto),
-                CatalogoCampionati.nuovoCampionatoRookie());
+                DatiDiProva.campionatoDiCinqueTappe());
 
         repository.salva("carriera1", carriera);
         repository.salva("carriera2", carriera);
@@ -82,10 +81,10 @@ class RepositorySalvataggiJsonTest {
     @Test
     void unoStileSconosciutoNelSalvataggioVieneSegnalato(@TempDir Path cartellaTemporanea) throws Exception {
         RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
-        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(0);
+        Moto moto = DatiDiProva.motoLeggera();
         Carriera carriera = new Carriera(
                 new Pilota("Ada", new StileAggressivo(), moto),
-                CatalogoCampionati.nuovoCampionatoRookie());
+                DatiDiProva.campionatoDiCinqueTappe());
         repository.salva("manomesso", carriera);
         Path file = cartellaTemporanea.resolve("manomesso.json");
         Files.writeString(file, Files.readString(file).replace("AGGRESSIVO", "INESISTENTE"));

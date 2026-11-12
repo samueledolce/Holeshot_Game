@@ -1,0 +1,8 @@
+[
+  {
+    "nome": "Campionato polare",
+    "tappe": [
+      { "nomeTappa": "GP del Polo Nord", "pistaChiave": "GHIACCIATA", "numeroAvversari": 4 }
+    ]
+  }
+]

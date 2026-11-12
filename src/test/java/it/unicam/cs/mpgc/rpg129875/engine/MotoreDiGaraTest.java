@@ -1,7 +1,6 @@
 package it.unicam.cs.mpgc.rpg129875.engine;
 
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
+import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 import it.unicam.cs.mpgc.rpg129875.model.Gara;
@@ -21,9 +20,9 @@ class MotoreDiGaraTest {
 
     @Test
     void disputareUnaGaraAggiornaCarrieraECampionato() {
-        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(2);
+        Moto moto = DatiDiProva.motoPotente();
         Pilota pilota = new Pilota("Campione", new StileAggressivo(), moto);
-        Campionato campionato = CatalogoCampionati.nuovoCampionatoRookie();
+        Campionato campionato = DatiDiProva.campionatoDiCinqueTappe();
         Carriera carriera = new Carriera(pilota, campionato);
 
         MotoreDiGara motore = new MotoreDiGara(

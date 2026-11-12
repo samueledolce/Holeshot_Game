@@ -1,18 +1,23 @@
 package it.unicam.cs.mpgc.rpg129875.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-/** Catalogo delle moto disponibili all'inizio di una nuova carriera. */
-public final class CatalogoMoto {
+/**
+ * L'elenco delle moto esistenti nel gioco.
+ *
+ * <p>È un'interfaccia perché il resto dell'applicazione non deve sapere da
+ * dove arrivano le moto: oggi vengono lette da un file JSON, in futuro
+ * potrebbero arrivare da un database o da un servizio remoto senza
+ * modificare chi le usa (Dependency Inversion).</p>
+ */
+public interface CatalogoMoto {
 
-    private CatalogoMoto() {
-    }
+    /** Tutte le moto, nell'ordine in cui vanno presentate al giocatore. */
+    List<Moto> tutte();
 
-    public static List<Moto> disponibiliPerNuovaCarriera() {
-        return List.of(
-                new Moto("Falco 125", CategoriaMoto.MX_125, 40, 80, 65),
-                new Moto("Tempesta 250", CategoriaMoto.MX_250, 65, 65, 55),
-                new Moto("Titano 450", CategoriaMoto.MX_450, 85, 45, 40)
-        );
+    /** Le moto gratuite tra cui scegliere all'inizio di una carriera. */
+    default List<Moto> diSerie() {
+        return tutte().stream().filter(Moto::isDiSerie).collect(Collectors.toList());
     }
 }

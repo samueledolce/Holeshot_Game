@@ -22,6 +22,8 @@ public interface Navigatore {
 
     void mostraCarriera();
 
+    void passaAlProssimoCampionato();
+
     void mostraGara();
 
     void mostraPartenza(Gara gara);

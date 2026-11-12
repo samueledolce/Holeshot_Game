@@ -1,0 +1,14 @@
+[
+  { "nome": "Falco 125",            "categoria": "MX_125", "potenza": 40,  "maneggevolezza": 80, "bonusPartenza": 65, "prezzo": 0 },
+  { "nome": "Tempesta 250",         "categoria": "MX_250", "potenza": 65,  "maneggevolezza": 65, "bonusPartenza": 55, "prezzo": 0 },
+  { "nome": "Titano 450",           "categoria": "MX_450", "potenza": 85,  "maneggevolezza": 45, "bonusPartenza": 40, "prezzo": 0 },
+
+  { "nome": "Falco 125 Racing",     "categoria": "MX_125", "potenza": 52,  "maneggevolezza": 90, "bonusPartenza": 78, "prezzo": 350 },
+  { "nome": "Tempesta 250 Racing",  "categoria": "MX_250", "potenza": 76,  "maneggevolezza": 76, "bonusPartenza": 68, "prezzo": 400 },
+  { "nome": "Titano 450 Racing",    "categoria": "MX_450", "potenza": 94,  "maneggevolezza": 62, "bonusPartenza": 60, "prezzo": 400 },
+
+  { "nome": "Tempesta 250 Factory", "categoria": "MX_250", "potenza": 86,  "maneggevolezza": 86, "bonusPartenza": 80, "prezzo": 900 },
+  { "nome": "Titano 450 Factory",   "categoria": "MX_450", "potenza": 100, "maneggevolezza": 74, "bonusPartenza": 78, "prezzo": 950 },
+
+  { "nome": "Saetta 450 Ufficiale", "categoria": "MX_450", "potenza": 100, "maneggevolezza": 90, "bonusPartenza": 92, "prezzo": 1600 }
+]

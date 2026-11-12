@@ -1,7 +1,7 @@
 package it.unicam.cs.mpgc.rpg129875.engine;
 
+import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Abilita;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
 import it.unicam.cs.mpgc.rpg129875.model.StileEquilibrato;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GestoreProgressioneTest {
 
     private Pilota nuovoPilotaDiProva() {
-        return new Pilota("Test", new StileEquilibrato(), CatalogoMoto.disponibiliPerNuovaCarriera().get(0));
+        return new Pilota("Test", new StileEquilibrato(), DatiDiProva.motoLeggera());
     }
 
     @Test

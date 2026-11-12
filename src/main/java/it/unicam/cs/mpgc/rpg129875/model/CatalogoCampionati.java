@@ -1,20 +1,20 @@
 package it.unicam.cs.mpgc.rpg129875.model;
 
-import java.util.List;
+import java.util.Optional;
 
-/** Campionati precostituiti proposti al giocatore. */
-public final class CatalogoCampionati {
+/**
+ * La sequenza dei campionati che compongono una carriera, dal primo
+ * all'ultimo.
+ *
+ * <p>Ogni chiamata restituisce un campionato nuovo, ancora da disputare:
+ * un {@link Campionato} tiene traccia dell'avanzamento del giocatore,
+ * quindi non può essere condiviso tra carriere diverse.</p>
+ */
+public interface CatalogoCampionati {
 
-    private CatalogoCampionati() {
-    }
+    /** Il campionato con cui inizia ogni nuova carriera. */
+    Campionato primo();
 
-    public static Campionato nuovoCampionatoRookie() {
-        return new Campionato("Campionato Rookie", List.of(
-                new Gara("GP di Maggiora", new PistaAsciutta(), 5),
-                new Gara("GP di Loket", new PistaFangosa(), 6),
-                new Gara("GP di Lacapelle", new PistaSabbiosa(), 6),
-                new Gara("GP di Assen", new PistaAsciutta(), 7),
-                new Gara("GP di Ottobiano", new PistaFangosa(), 7)
-        ));
-    }
+    /** Il campionato che viene dopo quello con il nome indicato, se ce n'è uno. */
+    Optional<Campionato> successivoA(String nomeCampionato);
 }

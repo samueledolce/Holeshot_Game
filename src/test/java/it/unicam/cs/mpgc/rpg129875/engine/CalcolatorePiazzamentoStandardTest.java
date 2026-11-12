@@ -1,7 +1,7 @@
 package it.unicam.cs.mpgc.rpg129875.engine;
 
+import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Avversario;
-import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
 import it.unicam.cs.mpgc.rpg129875.model.QualitaPartenza;
@@ -20,7 +20,7 @@ class CalcolatorePiazzamentoStandardTest {
 
     @Test
     void unaPartenzaPerfettaPortaAUnaPosizioneMiglioreDiUnaFalsaPartenza() {
-        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(0);
+        Moto moto = DatiDiProva.motoLeggera();
         Pilota pilota = new Pilota("Test", new StileEquilibrato(), moto);
         CalcolatorePiazzamento calcolatore = new CalcolatorePiazzamentoStandard(new Random(42));
 
@@ -41,7 +41,7 @@ class CalcolatorePiazzamentoStandardTest {
 
     @Test
     void ilVincitoreCompareInCimaAllaClassifica() {
-        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(0);
+        Moto moto = DatiDiProva.motoLeggera();
         Pilota pilota = new Pilota("Campione", new StileAggressivo(), moto);
         CalcolatorePiazzamento calcolatore = new CalcolatorePiazzamentoStandard(new Random(1));
 
