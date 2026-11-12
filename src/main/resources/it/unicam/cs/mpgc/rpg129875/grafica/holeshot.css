@@ -1,0 +1,241 @@
+/*
+ * Foglio di stile di Holeshot.
+ *
+ * Tutto l'aspetto dell'applicazione (colori, caratteri, sfondi) è definito
+ * qui e non nel codice Java: le schermate si limitano ad assegnare ai
+ * componenti una classe di stile. Per cambiare aspetto al gioco basta
+ * modificare questo file.
+ */
+
+/* ---- Colori di base: tema scuro con accento arancione ------------------- */
+
+.root {
+    -fx-base: #232a36;
+    -fx-background: #11151c;
+    -fx-control-inner-background: #1a202b;
+    -fx-accent: #f5a623;
+    -fx-focus-color: #f5a623;
+    -fx-faint-focus-color: rgba(245, 166, 35, 0.25);
+    -fx-font-size: 14px;
+}
+
+/* ---- Schermate e sfondi ------------------------------------------------- */
+
+.schermata {
+    -fx-background-color: #11151c;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: cover;
+    -fx-padding: 16;
+}
+
+.sfondo-menu {
+    -fx-background-image: url("sfondo-menu.jpg");
+}
+
+.sfondo-box {
+    -fx-background-image: url("sfondo-box.jpg");
+}
+
+/* Uno sfondo per ogni condizione di pista: il nome della classe termina con
+   il codice della condizione in minuscolo. Una condizione senza immagine
+   dedicata usa semplicemente il colore di fondo di .schermata. */
+
+.sfondo-pista-asciutta {
+    -fx-background-image: url("sfondo-pista-asciutta.jpg");
+}
+
+.sfondo-pista-fangosa {
+    -fx-background-image: url("sfondo-pista-fangosa.jpg");
+}
+
+.sfondo-pista-sabbiosa {
+    -fx-background-image: url("sfondo-pista-sabbiosa.jpg");
+}
+
+/* ---- Pannelli ----------------------------------------------------------- */
+
+.pannello {
+    -fx-background-color: rgba(13, 17, 24, 0.88);
+    -fx-background-radius: 16;
+    -fx-border-color: rgba(255, 255, 255, 0.09);
+    -fx-border-radius: 16;
+    -fx-padding: 22 30 22 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.55), 30, 0.1, 0, 8);
+}
+
+.scheda {
+    -fx-background-color: rgba(255, 255, 255, 0.055);
+    -fx-background-radius: 10;
+    -fx-padding: 10 14 10 14;
+}
+
+.scheda-evidenziata {
+    -fx-background-color: rgba(245, 166, 35, 0.14);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(245, 166, 35, 0.55);
+    -fx-border-radius: 10;
+    -fx-padding: 10 14 10 14;
+}
+
+/* ---- Testi -------------------------------------------------------------- */
+
+.titolo-gioco {
+    -fx-font-size: 64px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 14, 0.3, 0, 3);
+}
+
+.motto {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f9b55a;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 8, 0.3, 0, 2);
+}
+
+.titolo {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.sottotitolo {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f5a623;
+}
+
+.intestazione {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #8f9bb0;
+}
+
+.valore {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.nota {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #9aa4b5;
+}
+
+.errore {
+    -fx-text-fill: #ff7b72;
+}
+
+.successo {
+    -fx-text-fill: #7ee787;
+}
+
+/* ---- Pulsanti ----------------------------------------------------------- */
+
+.button {
+    -fx-background-radius: 8;
+    -fx-padding: 8 18 8 18;
+    -fx-cursor: hand;
+}
+
+.pulsante-principale {
+    -fx-base: #f5a623;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 26 10 26;
+}
+
+.pulsante-partenza {
+    -fx-base: #f5a623;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 14;
+    -fx-padding: 16 54 16 54;
+}
+
+/* ---- Barre di avanzamento ---------------------------------------------- */
+
+.progress-bar {
+    -fx-pref-height: 10;
+    -fx-min-height: 10;
+}
+
+.progress-bar > .track {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: #f5a623;
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+}
+
+.barra-completata > .bar {
+    -fx-background-color: #7ee787;
+}
+
+/* ---- Elenchi e aree scorrevoli ------------------------------------------ */
+
+.list-view {
+    -fx-background-radius: 8;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ---- Il cancelletto di partenza ---------------------------------------- */
+
+.cancelletto {
+    -fx-fill: #d5dbe5;
+    -fx-stroke: #2a2f38;
+    -fx-stroke-width: 2;
+}
+
+.cancelletto-aperto {
+    -fx-fill: #2ecc71;
+}
+
+.cancelletto-fermo {
+    -fx-fill: #7f8c8d;
+}
+
+.montante {
+    -fx-fill: #2a2f38;
+}
+
+.luce {
+    -fx-stroke: #11151c;
+    -fx-stroke-width: 4;
+}
+
+.luce-attesa {
+    -fx-fill: #e74c3c;
+    -fx-effect: dropshadow(gaussian, rgba(231, 76, 60, 0.85), 26, 0.35, 0, 0);
+}
+
+.luce-via {
+    -fx-fill: #2ecc71;
+    -fx-effect: dropshadow(gaussian, rgba(46, 204, 113, 0.95), 34, 0.45, 0, 0);
+}
+
+.luce-spenta {
+    -fx-fill: #4a5261;
+}
+
+.stato-partenza {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 10, 0.3, 0, 2);
+}

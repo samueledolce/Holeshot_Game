@@ -29,7 +29,8 @@ public final class GestoreProgressione {
         this(new CatalogoAbilita());
     }
 
-    private int esperienzaRichiestaPer(int livello) {
+    /** L'esperienza da accumulare, partendo da zero, per passare dal livello indicato al successivo. */
+    public int esperienzaRichiestaPer(int livello) {
         return livello * ESPERIENZA_BASE_LIVELLO;
     }
 

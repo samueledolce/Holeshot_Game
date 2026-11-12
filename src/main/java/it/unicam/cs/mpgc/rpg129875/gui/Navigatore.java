@@ -32,7 +32,11 @@ public interface Navigatore {
 
     void completaGara(Gara gara, RisultatoPartenza esitoPartenza);
 
-    void salvaCarriera(String nomeSalvataggio, Runnable alTermine);
+    /**
+     * Salva la carriera in corso senza bloccare l'interfaccia: a operazione
+     * conclusa viene eseguita una sola delle due azioni indicate.
+     */
+    void salvaCarriera(String nomeSalvataggio, Runnable seRiesce, Runnable seFallisce);
 
     void caricaCarriera(String nomeSalvataggio);
 
