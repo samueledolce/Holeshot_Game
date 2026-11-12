@@ -11,11 +11,14 @@ import it.unicam.cs.mpgc.rpg129875.model.StileTecnico;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RepositorySalvataggiJsonTest {
@@ -66,5 +69,27 @@ class RepositorySalvataggiJsonTest {
         RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
 
         assertTrue(repository.carica("non-esiste").isEmpty());
+    }
+
+    @Test
+    void unFileDanneggiatoVieneSegnalatoConUnaPersistenzaException(@TempDir Path cartellaTemporanea) throws IOException {
+        RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
+        Files.writeString(cartellaTemporanea.resolve("rotto.json"), "{ questo non è JSON valido");
+
+        assertThrows(PersistenzaException.class, () -> repository.carica("rotto"));
+    }
+
+    @Test
+    void unoStileSconosciutoNelSalvataggioVieneSegnalato(@TempDir Path cartellaTemporanea) throws Exception {
+        RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
+        Moto moto = CatalogoMoto.disponibiliPerNuovaCarriera().get(0);
+        Carriera carriera = new Carriera(
+                new Pilota("Ada", new StileAggressivo(), moto),
+                CatalogoCampionati.nuovoCampionatoRookie());
+        repository.salva("manomesso", carriera);
+        Path file = cartellaTemporanea.resolve("manomesso.json");
+        Files.writeString(file, Files.readString(file).replace("AGGRESSIVO", "INESISTENTE"));
+
+        assertThrows(PersistenzaException.class, () -> repository.carica("manomesso"));
     }
 }

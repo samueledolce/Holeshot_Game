@@ -6,10 +6,8 @@ import it.unicam.cs.mpgc.rpg129875.model.CatalogoCampionati;
 import it.unicam.cs.mpgc.rpg129875.model.CatalogoMoto;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
-import it.unicam.cs.mpgc.rpg129875.model.StileAggressivo;
+import it.unicam.cs.mpgc.rpg129875.model.Registri;
 import it.unicam.cs.mpgc.rpg129875.model.StileDiGuida;
-import it.unicam.cs.mpgc.rpg129875.model.StileEquilibrato;
-import it.unicam.cs.mpgc.rpg129875.model.StileTecnico;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -36,7 +34,7 @@ final class SchermataCreazionePilota {
         TextField campoNome = new TextField();
         campoNome.setPromptText("Nome del pilota");
 
-        List<StileDiGuida> stili = List.of(new StileAggressivo(), new StileTecnico(), new StileEquilibrato());
+        List<StileDiGuida> stili = Registri.stiliDiGuida().tutti();
         ComboBox<StileDiGuida> comboStile = new ComboBox<>();
         comboStile.getItems().addAll(stili);
         comboStile.setConverter(convertitoreVisualizzazione(StileDiGuida::nome));

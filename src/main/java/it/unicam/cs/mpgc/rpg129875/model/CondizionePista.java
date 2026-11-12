@@ -9,7 +9,7 @@ package it.unicam.cs.mpgc.rpg129875.model;
  * questa interfaccia (Dependency Inversion). Aggiungere una nuova
  * condizione significa aggiungere una nuova classe (Open/Closed).</p>
  */
-public interface CondizionePista {
+public interface CondizionePista extends Identificabile {
 
     String nome();
 

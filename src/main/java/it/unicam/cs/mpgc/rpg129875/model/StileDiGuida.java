@@ -9,7 +9,7 @@ package it.unicam.cs.mpgc.rpg129875.model;
  * aggiungere una nuova classe, senza modificare {@link Pilota} né le
  * implementazioni già esistenti (principio Open/Closed).</p>
  */
-public interface StileDiGuida {
+public interface StileDiGuida extends Identificabile {
 
     String nome();
 

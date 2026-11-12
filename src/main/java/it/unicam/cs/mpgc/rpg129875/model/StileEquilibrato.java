@@ -4,6 +4,11 @@ package it.unicam.cs.mpgc.rpg129875.model;
 public final class StileEquilibrato implements StileDiGuida {
 
     @Override
+    public String codice() {
+        return "EQUILIBRATO";
+    }
+
+    @Override
     public String nome() {
         return "Equilibrato";
     }

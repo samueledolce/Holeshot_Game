@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg129875.persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
 
 import java.io.IOException;
@@ -79,6 +80,9 @@ public final class RepositorySalvataggiJson implements RepositorySalvataggi<Carr
             return Optional.of(convertitore.versoDominio(dto));
         } catch (IOException e) {
             throw new PersistenzaException("Impossibile caricare la carriera \"" + nomeSalvataggio + "\"", e);
+        } catch (JsonParseException | IllegalArgumentException e) {
+            throw new PersistenzaException("Il salvataggio \"" + nomeSalvataggio
+                    + "\" è danneggiato o non è compatibile: " + e.getMessage(), e);
         }
     }
 

@@ -4,6 +4,11 @@ package it.unicam.cs.mpgc.rpg129875.model;
 public final class StileTecnico implements StileDiGuida {
 
     @Override
+    public String codice() {
+        return "TECNICO";
+    }
+
+    @Override
     public String nome() {
         return "Tecnico";
     }

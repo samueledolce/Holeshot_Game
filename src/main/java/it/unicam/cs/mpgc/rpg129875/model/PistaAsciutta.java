@@ -4,6 +4,11 @@ package it.unicam.cs.mpgc.rpg129875.model;
 public final class PistaAsciutta implements CondizionePista {
 
     @Override
+    public String codice() {
+        return "ASCIUTTA";
+    }
+
+    @Override
     public String nome() {
         return "Pista asciutta";
     }

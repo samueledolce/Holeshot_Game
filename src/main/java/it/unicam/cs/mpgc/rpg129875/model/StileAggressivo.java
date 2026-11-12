@@ -4,6 +4,11 @@ package it.unicam.cs.mpgc.rpg129875.model;
 public final class StileAggressivo implements StileDiGuida {
 
     @Override
+    public String codice() {
+        return "AGGRESSIVO";
+    }
+
+    @Override
     public String nome() {
         return "Aggressivo";
     }
