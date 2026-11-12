@@ -127,11 +127,13 @@ final class ConvertitoreCarriera {
         dto.nomeTappa = gara.getNomeTappa();
         dto.pistaChiave = gara.getPista().codice();
         dto.numeroAvversari = gara.getNumeroAvversari();
+        dto.difficolta = gara.getDifficolta();
         return dto;
     }
 
     private Gara garaVersoDominio(GaraDTO dto) {
-        return new Gara(dto.nomeTappa, condizioniPista.perCodice(dto.pistaChiave), dto.numeroAvversari);
+        return new Gara(dto.nomeTappa, condizioniPista.perCodice(dto.pistaChiave), dto.numeroAvversari,
+                dto.difficolta);
     }
 
     /** Un elenco assente nel file (es. salvataggio di una versione precedente) equivale a un elenco vuoto. */

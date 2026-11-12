@@ -3,8 +3,10 @@ package it.unicam.cs.mpgc.rpg129875.persistence;
 import it.unicam.cs.mpgc.rpg129875.DatiDiProva;
 import it.unicam.cs.mpgc.rpg129875.model.Campionato;
 import it.unicam.cs.mpgc.rpg129875.model.Carriera;
+import it.unicam.cs.mpgc.rpg129875.model.Gara;
 import it.unicam.cs.mpgc.rpg129875.model.Moto;
 import it.unicam.cs.mpgc.rpg129875.model.Pilota;
+import it.unicam.cs.mpgc.rpg129875.model.PistaSabbiosa;
 import it.unicam.cs.mpgc.rpg129875.model.StileAggressivo;
 import it.unicam.cs.mpgc.rpg129875.model.StileTecnico;
 import org.junit.jupiter.api.Test;
@@ -90,5 +92,21 @@ class RepositorySalvataggiJsonTest {
         Files.writeString(file, Files.readString(file).replace("AGGRESSIVO", "INESISTENTE"));
 
         assertThrows(PersistenzaException.class, () -> repository.carica("manomesso"));
+    }
+
+    @Test
+    void leTappeDelCampionatoVengonoRicaricateConPistaEDifficolta(@TempDir Path cartellaTemporanea) throws PersistenzaException {
+        RepositorySalvataggi<Carriera> repository = new RepositorySalvataggiJson(cartellaTemporanea);
+        Campionato campionato = new Campionato("Coppa di prova", List.of(
+                new Gara("Tappa sulla sabbia", new PistaSabbiosa(), 9, 14)));
+        Carriera carriera = new Carriera(new Pilota("Ada", new StileAggressivo(), DatiDiProva.motoLeggera()), campionato);
+
+        repository.salva("tappe", carriera);
+        Gara ricaricata = repository.carica("tappe").orElseThrow().getCampionatoCorrente().tappaCorrente();
+
+        assertEquals("Tappa sulla sabbia", ricaricata.getNomeTappa());
+        assertEquals("SABBIOSA", ricaricata.getPista().codice());
+        assertEquals(9, ricaricata.getNumeroAvversari());
+        assertEquals(14, ricaricata.getDifficolta());
     }
 }

@@ -6,4 +6,5 @@ final class GaraDTO {
     String nomeTappa;
     String pistaChiave;
     int numeroAvversari;
+    int difficolta;
 }
