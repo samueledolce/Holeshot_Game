@@ -1,4 +1,4 @@
-# Funzionalità implementate
+~~~~# Funzionalità implementate
 
 ## Gestione della carriera
 
@@ -85,7 +85,7 @@ Realizzata con JavaFX: menu principale, creazione del pilota, schermata di
 carriera, negozio, presentazione della gara, minigioco della partenza,
 schermata dei risultati. La navigazione passa attraverso un'unica finestra,
 il cui contenuto viene sostituito con una dissolvenza (vedi
-[Architettura e Responsabilità](Architettura-e-Responsabilità)).
+[Architettura e Responsabilità](Architettura_SOLID)).
 
 Ogni schermata ha uno sfondo: quelle di gara mostrano il rettilineo di
 partenza nella condizione di pista della tappa (asciutto, fango, sabbia).

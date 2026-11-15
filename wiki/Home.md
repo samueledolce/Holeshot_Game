@@ -9,10 +9,10 @@ Questa Wiki documenta il progetto secondo quanto richiesto dalla specifica
 d'esame. Indice delle pagine:
 
 - **[Funzionalità](Funzionalità)** — cosa fa l'applicazione, dal punto di vista del giocatore.
-- **[Architettura e Responsabilità](Architettura-e-Responsabilità)** — organizzazione del codice, classi, interfacce e responsabilità di ciascuna.
+- **[Architettura e Responsabilità](Architettura_SOLID)** — organizzazione del codice, classi, interfacce e responsabilità di ciascuna.
 - **[Persistenza](Persistenza)** — come sono organizzati i dati (salvataggi e contenuti di gioco) e come viene garantito il salvataggio/caricamento.
 - **[Estendibilità](Estendibilità)** — i meccanismi pensati per integrare nuove funzionalità senza modificare il codice esistente.
-- **[Dichiarazione uso AI](Dichiarazione-uso-AI)** — dettaglio degli strumenti di intelligenza artificiale usati nello sviluppo e a quale scopo.
+- **[Dichiarazione uso AI](Dichiarazione_uso_AI)** — dettaglio degli strumenti di intelligenza artificiale usati nello sviluppo e a quale scopo.
 
 ## Il concept in breve
 
@@ -29,5 +29,5 @@ indispensabili per restare competitivi quando gli avversari crescono.
 
 Il gioco è volutamente **essenziale nel gameplay** (non simula un'intera
 gara di motocross) per lasciare spazio a un'architettura software pulita,
-estendibile e ben suddivisa per responsabilità — che è l'obiettivo reale
-del progetto d'esame.
+estendibile e ben suddivisa per responsabilità.
+

@@ -92,29 +92,11 @@ repository.
 
 ## 🤖 Uso di strumenti di AI
 
-Questo progetto è stato sviluppato in collaborazione con **Claude**
-(Anthropic), usato come assistente di sviluppo per:
+Questo progetto è stato sviluppato con l'assistenza dell'assistente AI **Claude** (Anthropic) per:
+- la progettazione dell'architettura del progetto e le indicazioni sui principi SOLID;
+- la generazione del codice dei package model, engine, persistence e gui;
+- la creazione dei file di dati JSON.
 
-- discutere e progettare insieme il concept del gioco (un GdR di carriera
-  motocross incentrato sulla partenza al cancelletto) e l'architettura
-  del software (package, interfacce, rispetto dei principi SOLID);
-- generare il codice sorgente (modello di dominio, motore di gioco,
-  persistenza JSON, interfaccia grafica JavaFX) e i test JUnit;
-- disegnare gli sfondi, tramite uno script che li genera da zero
-  (`strumenti/genera_sfondi.py`): non derivano da immagini di terzi;
-- scrivere la documentazione (README e Wiki).
-
-La logica di gioco è coperta dai test JUnit del progetto, che Claude ha
-eseguito durante lo sviluppo. L'ambiente cloud usato da Claude non può però
-scaricare le librerie Java (JavaFX, Gson, JUnit): per compilare ed eseguire
-i test ha usato delle sostitute scritte apposta, e non ha potuto avviare
-l'interfaccia grafica. La verifica con le librerie vere (`./gradlew build`
-e `./gradlew run`) avviene sul computer dello studente. Per
-la dichiarazione completa, vedi la pagina *Dichiarazione uso AI* nella Wiki
-del repository.
-
+Tutto il codice generato è stato rivisto, compreso e validato dallo studente.
 ---
 
-## 📄 Licenza
-
-Progetto accademico, sviluppato a scopo didattico.

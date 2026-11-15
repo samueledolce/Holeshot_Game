@@ -19,9 +19,9 @@ import java.util.Random;
 public final class GeneratoreAvversariCasuale implements GeneratoreAvversari {
 
     private static final String[] NOMI = {
-            "Rossi", "Herlings", "Cairoli", "Prado", "Vialle", "Coldenhoff",
+            "Coenen", "Herlings", "Cairoli", "Prado", "Vialle", "Coldenhoff",
             "Febvre", "Renaux", "Gajser", "Seewer", "Jonass", "Paulin",
-            "Fernandez", "Longhi", "Bianchi", "Romano"
+            "Fernandez", "Fueri", "Lata", "Lupino"
     };
 
     private static final int PRESTAZIONE_MEDIA_INIZIALE = 110;
